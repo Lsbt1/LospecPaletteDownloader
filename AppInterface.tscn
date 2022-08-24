@@ -1,0 +1,108 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://LospecDownloader.gd" type="Script" id=1]
+[ext_resource path="res://AppInterface.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 6.0
+content_margin_right = 6.0
+bg_color = Color( 0.396078, 0.396078, 0.419608, 1 )
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[node name="AppInterface" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="bg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.109804, 0.109804, 0.121569, 1 )
+
+[node name="Margins" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Content" type="VBoxContainer" parent="Margins"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 595.0
+
+[node name="DownloadInfo" type="HBoxContainer" parent="Margins/Content"]
+margin_right = 1014.0
+margin_bottom = 24.0
+
+[node name="PalletName" type="LineEdit" parent="Margins/Content/DownloadInfo"]
+margin_right = 811.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Extensions" type="OptionButton" parent="Margins/Content/DownloadInfo"]
+margin_left = 815.0
+margin_right = 935.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 120, 0 )
+
+[node name="Download" type="Button" parent="Margins/Content/DownloadInfo"]
+margin_left = 939.0
+margin_right = 1014.0
+margin_bottom = 24.0
+text = "Download"
+
+[node name="Progress" type="ProgressBar" parent="Margins/Content"]
+margin_top = 28.0
+margin_right = 1014.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 22 )
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+value = 3.12
+percent_visible = false
+
+[node name="ProgressData" type="Label" parent="Margins/Content"]
+margin_top = 54.0
+margin_right = 1014.0
+margin_bottom = 68.0
+
+[node name="Viewport" type="Control" parent="Margins/Content"]
+margin_top = 72.0
+margin_right = 1014.0
+margin_bottom = 590.0
+size_flags_vertical = 3
+
+[node name="TextDisplay" type="TextEdit" parent="Margins/Content/Viewport"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+readonly = true
+wrap_enabled = true
+
+[node name="DisplayTexture" type="TextureRect" parent="Margins/Content/Viewport"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+expand = true
+
+[node name="LospecDownloaderApi" type="HTTPRequest" parent="."]
+script = ExtResource( 1 )
+
+[connection signal="text_changed" from="Margins/Content/DownloadInfo/PalletName" to="." method="PalletName_changed"]
+[connection signal="text_entered" from="Margins/Content/DownloadInfo/PalletName" to="." method="PalletName_entered"]
+[connection signal="item_selected" from="Margins/Content/DownloadInfo/Extensions" to="." method="extension_selected"]
+[connection signal="pressed" from="Margins/Content/DownloadInfo/Download" to="." method="download_btn_pressed"]
+[connection signal="file_loaded_into_memory" from="LospecDownloaderApi" to="." method="lospec_file_loaded_into_memory"]
